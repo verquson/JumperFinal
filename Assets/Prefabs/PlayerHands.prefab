@@ -291,6 +291,8 @@ MonoBehaviour:
   speed: 10
   jumpForce: 700
   jumpCD: 1
+  DeathClip: {fileID: 8300000, guid: 23917cd4c3b64654fa2b48272c8d9356, type: 3}
+  JumpClip: {fileID: 8300000, guid: 23917cd4c3b64654fa2b48272c8d9356, type: 3}
 --- !u!1 &1878174662091430826
 GameObject:
   m_ObjectHideFlags: 0
