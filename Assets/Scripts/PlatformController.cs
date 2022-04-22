@@ -22,6 +22,7 @@ public class PlatformController : MonoBehaviour
     private bool hasJumped = false;
    
     private Vector2 playerInput;
+    bool isdead=false;
 
     // Start is called before the first frame update
     void Start()
@@ -33,7 +34,9 @@ public class PlatformController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+        if (isdead)
+            return;
+
         playerInput.x = Input.GetAxis("Horizontal") * speed;
 
         if (Input.GetButtonDown("Jump") && !hasJumped)
@@ -52,7 +55,12 @@ public class PlatformController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (isdead)
+            return;
+
         rb.velocity = playerInput;
+        
+
     }
 
     void ResetJump()
@@ -65,17 +73,22 @@ public class PlatformController : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<wall>())
         {
-            this.gameObject.SetActive(false);
+            rb.velocity = Vector2.zero;
+            rb.gravityScale = 0;
+            GetComponent<SpriteRenderer>().enabled = false;
+            isdead = true;
             AudioSource.PlayClipAtPoint(DeathClip, transform.position);
             Invoke("Respawn", 2);
+           
         }
     }
 
     void Respawn()
     {
+        rb.gravityScale = 1;
         this.transform.position = Respawnpoint.position;
-        this.gameObject.SetActive(true);
-        rb.velocity = Vector2.zero;
+        GetComponent<SpriteRenderer>().enabled = true;
+        isdead = false;
     }
 
   
